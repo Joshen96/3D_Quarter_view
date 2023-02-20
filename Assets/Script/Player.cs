@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 
     public float jumppower = 0f;
 
+    static int jumpcount = 2;
+
     float hAxis;
     float vAxis;
     bool isTouchWall = false; //벽뚤방지 
@@ -103,10 +105,11 @@ public class Player : MonoBehaviour
         void Jump()
         {
 
-            if (jumpDown && !isJump && moveVec == Vector3.zero && !isDodge)
+            if (jumpDown && !isJump && !isDodge &&jumpcount>0)
             {
+                jumpcount--;
                 Debug.Log("점프");
-                isJump = true;
+                //isJump = true;
                 anim.SetBool("isJump", true);  // 움직임있을때
                 anim.SetTrigger("doJump");
                 rigi.AddForce(Vector3.up * jumppower, ForceMode.Impulse);
@@ -150,7 +153,8 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("땅위임");
                 anim.SetBool("isJump", false);
-                isJump = false;
+                //isJump = false;
+                jumpcount = 2;
             }
 
 
