@@ -45,8 +45,10 @@ public class Player : MonoBehaviour
 
         anim.SetBool("isRun",moveVec != Vector3.zero);  // 움직임있을때
         anim.SetBool("isWalk", walkDown);  // 걷기가 눌러졌을때
-        
 
+        //회전구현
+
+        transform.LookAt(transform.position + moveVec); //룩엣 함수로 내포지션에서 움직이는 곳을 바라본다  
         
 
 
