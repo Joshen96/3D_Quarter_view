@@ -20,7 +20,7 @@ public class Item : MonoBehaviour
 
         
         updown();
-        Debug.Log(count);
+        //Debug.Log(count);
     }
     void updown()
     {

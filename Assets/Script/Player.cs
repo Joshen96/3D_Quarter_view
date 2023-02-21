@@ -5,6 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed = 0f;
+    //무기관련
+    public GameObject[] weapons;
+    public bool[] hasWeapons;
+
 
     public float jumppower = 0f;
 
@@ -17,6 +21,7 @@ public class Player : MonoBehaviour
     bool walkDown = false;
     bool jumpDown = false;
     bool dodgeDown = false;
+    bool iDown = false;
 
 
 
@@ -29,6 +34,8 @@ public class Player : MonoBehaviour
 
     Rigidbody rigi;
     Animator anim;
+
+    GameObject nearObject;
     void Awake()
     {
         anim = GetComponentInChildren<Animator>(); //자식오브젝트에 있는 컴포넌트 가저오는것
@@ -44,6 +51,23 @@ public class Player : MonoBehaviour
         Jump();
         Dodge();
         StopToWall(); // 레이캐스트 사용하여 레이어마스크 Wall 감지
+        Interation();
+    }
+
+    void Interation()
+    { 
+        if(iDown&& nearObject != null&&!isJump&&!isDodge)
+        {
+            if (nearObject.tag == "Weapon")
+            {
+                Item item = nearObject.GetComponent<Item>();
+                int weaponIndex = item.value;
+                hasWeapons[weaponIndex] = true;
+
+                Destroy(nearObject.gameObject);
+            }
+        }
+
     }
     void GetInput()
     {
@@ -52,6 +76,7 @@ public class Player : MonoBehaviour
         walkDown = Input.GetButton("Walk");
         jumpDown = Input.GetButtonDown("Jump");
         dodgeDown = Input.GetButtonDown("Fire1");
+        iDown = Input.GetButtonDown("Interation");
 
 
 
@@ -67,7 +92,7 @@ public class Player : MonoBehaviour
 
             if (!isDodge) // 구르기아니면==평상시
             {
-                Debug.Log("평상시");
+                //Debug.Log("평상시");
 
                 moveVec = new Vector3(hAxis, 0, vAxis).normalized;
             }
@@ -108,7 +133,7 @@ public class Player : MonoBehaviour
             if (jumpDown && !isJump && !isDodge &&jumpcount>0)
             {
                 jumpcount--;
-                Debug.Log("점프");
+                //Debug.Log("점프");
                 //isJump = true;
                 anim.SetBool("isJump", true);  // 움직임있을때
                 anim.SetTrigger("doJump");
@@ -122,7 +147,7 @@ public class Player : MonoBehaviour
             if (dodgeDown && !isDodge && moveVec != Vector3.zero)
             {
 
-                Debug.Log("구르기");
+                //Debug.Log("구르기");
                 speed *= 2;
                 rigi.AddForce(Vector3.up, ForceMode.Impulse);
                 anim.SetTrigger("doDodge");
@@ -151,7 +176,7 @@ public class Player : MonoBehaviour
         {
             if (collision.gameObject.tag == "Floor")
             {
-                Debug.Log("땅위임");
+                //Debug.Log("땅위임");
                 anim.SetBool("isJump", false);
                 //isJump = false;
                 jumpcount = 2;
@@ -159,7 +184,16 @@ public class Player : MonoBehaviour
 
 
         }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Weapon")
+        {
+            nearObject = other.gameObject;
+            Debug.Log(nearObject);
+            
+        }
+    }
 
 
 
-    } 
+} 
