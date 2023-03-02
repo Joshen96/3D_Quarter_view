@@ -107,8 +107,11 @@ public class Player : MonoBehaviour
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value;
                 hasWeapons[weaponIndex] = true;
-                nearObject.GetComponent<Rigidbody>();
-                nearObject.transform.position = Vector3.up * 10;
+                
+                Rigidbody itemrigi=nearObject.GetComponent<Rigidbody>();
+                itemrigi.AddForce(Vector3.up * 20f, ForceMode.Impulse);
+                
+                
 
                 Invoke(nameof(DestroyDelay),0.5f);
             }
