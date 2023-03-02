@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -28,7 +30,7 @@ public class Player : MonoBehaviour
     bool sDown2;
     bool sDown3;
 
-
+    bool isgetitem = false;
 
 
     //제약조건
@@ -106,14 +108,22 @@ public class Player : MonoBehaviour
             {
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value;
-                hasWeapons[weaponIndex] = true;
                 
-                Rigidbody itemrigi=nearObject.GetComponent<Rigidbody>();
-                itemrigi.AddForce(Vector3.up * 20f, ForceMode.Impulse);
+                hasWeapons[weaponIndex] = true;
+                SphereCollider itemCollider = nearObject.GetComponent<SphereCollider>();
+                itemCollider.enabled = false;
+                if (!isgetitem) // 아이템 연속 튀어오르기 방지
+                {
+                    isgetitem = true;
+                    Rigidbody itemrigi = nearObject.GetComponent<Rigidbody>();
+                    itemrigi.AddForce(Vector3.up * 15f, ForceMode.Impulse);
+                    itemrigi.useGravity = true;
+                    
+                }
                 
                 
 
-                Invoke(nameof(DestroyDelay),0.5f);
+                Invoke(nameof(DestroyDelay),1f);
             }
         }
 
@@ -121,6 +131,7 @@ public class Player : MonoBehaviour
     void DestroyDelay()
     {
         Destroy(nearObject.gameObject);
+        isgetitem = false;
     }
     void GetInput()
     {

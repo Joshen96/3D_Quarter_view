@@ -178,10 +178,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon HandGun
       objectReference: {fileID: 0}
-    - target: {fileID: 8689464506696999079, guid: 247ba4590d943094e8688b7d0c1a9d92, type: 3}
-      propertyPath: value
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 247ba4590d943094e8688b7d0c1a9d92, type: 3}
 --- !u!1001 &68910534
@@ -1476,10 +1472,6 @@ PrefabInstance:
     - target: {fileID: 9126146299426585137, guid: 1229903a2b49e6b4caa2cf1cd9deb468, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -33
-      objectReference: {fileID: 0}
-    - target: {fileID: 9126146299426585138, guid: 1229903a2b49e6b4caa2cf1cd9deb468, type: 3}
-      propertyPath: value
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1229903a2b49e6b4caa2cf1cd9deb468, type: 3}
